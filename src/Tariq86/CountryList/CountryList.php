@@ -49,7 +49,7 @@ class CountryList {
 	public function __construct($dataDir = null)
 	{
 		if ($dataDir === null) {
-			$r = new \ReflectionClass(Umpirsky\Country\Builder\Builder::class);
+			$r = new \ReflectionClass(\Umpirsky\ListGenerator\Builder\Builder::class);
 			$dataDir = sprintf('%s/../../../../country', dirname($r->getFileName()));
 		}
 
