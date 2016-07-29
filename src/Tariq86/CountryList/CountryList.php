@@ -36,12 +36,6 @@ class CountryList {
 	protected $dataCache = [];
 
 	/**
-	 * @var array
-	 * Available data sources.
-	 */
-	protected $dataSources = ['icu', 'cldr'];
-
-	/**
 	 * Constructor.
 	 *
 	 * @param string|null $dataDir  Path to the directory containing countries data
@@ -73,17 +67,16 @@ class CountryList {
 	 *
 	 * @param string $countryCode  The country
 	 * @param string|null $locale       The locale (default: null, which will get the current app locale)
-	 * @param string $source       Data source: "icu" or "cldr"
 	 * @return string
 	 * @throws CountryNotFoundException  If the country code doesn't match any country.
 	 */
-	public function getOne($countryCode, $locale = null, $source = 'cldr')
+	public function getOne($countryCode, $locale = null)
 	{
 		$locale = $this->_getLocale($locale);
 		$countryCode = mb_strtoupper($countryCode);
-		$locales = $this->loadData($locale, mb_strtolower($source), 'php');
+		$locales = $this->loadData($locale, 'php');
 
-		if (!$this->has($countryCode, $locale, $source))
+		if (!$this->has($countryCode, $locale))
 		{
 			throw new CountryNotFoundException($countryCode);
 		}
@@ -96,25 +89,23 @@ class CountryList {
 	 *
 	 * @param string $locale  The locale (default: en)
 	 * @param string $format  The format (default: php)
-	 * @param string $source  Data source: "icu" or "cldr"
 	 * @return array
 	 */
-	public function getList($locale = null, $format = 'php', $source = 'cldr')
+	public function getList($locale = null, $format = 'php')
 	{
 		$locale = $this->_getLocale($locale);
-		return $this->loadData($locale, mb_strtolower($source), $format);
+		return $this->loadData($locale, $format);
 	}
 
 	/**
 	 * @param string $locale  The locale
-	 * @param string $source  Data source
 	 * @param array $data     An array (list) with country data
 	 * @return CountryList    The instance of CountryList to enable fluent interface
 	 */
-	public function setList($locale, $source, array $data)
+	public function setList($locale, array $data)
 	{
 		$locale = $this->_getLocale($locale);
-		$this->dataCache[$locale][mb_strtolower($source)] = $data;
+		$this->dataCache[$locale] = $data;
 
 		return $this;
 	}
@@ -123,17 +114,13 @@ class CountryList {
 	 * A lazy-loader that loads data from a PHP file if it is not stored in memory yet.
 	 *
 	 * @param string $locale  The locale
-	 * @param string $source  Data source
 	 * @param string $format  The format (default: php)
 	 * @return array          An array (list) with country
 	 */
-	protected function loadData($locale, $source, $format)
+	protected function loadData($locale, $format)
 	{
 		$locale = $this->_getLocale($locale);
-		if (!isset($this->dataCache[$locale][$source][$format])) {
-			if (!in_array($source, $this->dataSources)) {
-				throw new \InvalidArgumentException(sprintf('Unknown data source "%s". The available ones are: "%s"', $source, implode('", "', $this->dataSources)));
-			}
+		if (!isset($this->dataCache[$locale][$format])) {
 
 			$file = sprintf("%s/%s/country.{$format}", $this->dataDir, $locale);
 
@@ -141,10 +128,10 @@ class CountryList {
 				throw new \RuntimeException(sprintf('Unable to load the country data file "%s"', $file));
 			}
 
-			$this->dataCache[$locale][$source][$format] = ($format == 'php') ? require $file : file_get_contents($file);
+			$this->dataCache[$locale][$format] = ($format == 'php') ? require $file : file_get_contents($file);
 		}
 
-		return $this->sortData($locale, $this->dataCache[$locale][$source][$format]);
+		return $this->sortData($locale, $this->dataCache[$locale][$format]);
 	}
 
 	/**
@@ -176,17 +163,15 @@ class CountryList {
 	 *
 	 * @param string $countryCode  A 2-letter country code
 	 * @param string $locale       The locale (default: null, which will get current app locale)
-	 * @param string $source       Data source: "icu" or "cldr"
 	 * @return bool                <code>true</code> if a match was found, <code>false</code> otherwise
 	 */
-	public function has($countryCode, $locale = null, $source = 'cldr')
+	public function has($countryCode, $locale = null)
 	{
-		$locale = $this->_getLocale($locale);
-		$locales = $this->loadData($locale, mb_strtolower($source), 'php');
+		$locale  = $this->_getLocale($locale);
+		$locales = $this->loadData($locale, 'php');
 
 		return isset($locales[mb_strtoupper($countryCode)]);
 	}
-
 
 	private function _getLocale($locale) {
 		if ($locale === null) {
