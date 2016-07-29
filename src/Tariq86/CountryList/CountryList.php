@@ -50,7 +50,7 @@ class CountryList {
 	{
 		if ($dataDir === null) {
 			$r = new \ReflectionClass(\Umpirsky\ListGenerator\Builder\Builder::class);
-			$dataDir = sprintf('%s/../../../../country', dirname($r->getFileName()));
+			$dataDir = sprintf('%s/../../../../../country-list/data', dirname($r->getFileName()));
 		}
 
 		if (!is_dir($dataDir)) {
@@ -135,7 +135,7 @@ class CountryList {
 				throw new \InvalidArgumentException(sprintf('Unknown data source "%s". The available ones are: "%s"', $source, implode('", "', $this->dataSources)));
 			}
 
-			$file = sprintf('%s/%s/%s/country.'.$format, $this->dataDir, $source, $locale);
+			$file = sprintf("%s/%s/country.{$format}", $this->dataDir, $locale);
 
 			if (!is_file($file)) {
 				throw new \RuntimeException(sprintf('Unable to load the country data file "%s"', $file));
