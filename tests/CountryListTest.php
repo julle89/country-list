@@ -7,7 +7,6 @@ use Tariq86\CountryList\CountryNotFoundException;
 class CountryListTest extends TestCase
 {
     public $countryList;
-    private $_locale = 'en';
     private $_testCountryCode = 'US';
     private $_testCountryName = 'United States';
 
@@ -27,26 +26,24 @@ class CountryListTest extends TestCase
 
     /** @test */
     public function it_can_get_one_country() {
-        $usa = $this->countryList->getOne('US', $this->_locale);
-        $this->assertEquals("United States", $usa);
+        $this->assertEquals("United States", $this->countryList->getOne('US', 'en'));
     }
 
     /** @test */
     public function it_can_return_json() {
-        $json = $this->countryList->getList($this->_locale, 'json');
-        $decoded = json_decode($json);
+        $decoded = json_decode($this->countryList->getList('en', 'json'));
         $this->assertEquals($decoded->{$this->_testCountryCode}, $this->_testCountryName);
     }
 
     /** @test */
     public function it_can_check_for_a_country() {
-        $this->assertTrue($this->countryList->has($this->_testCountryCode, $this->_locale));
+        $this->assertTrue($this->countryList->has($this->_testCountryCode));
     }
 
     /** @test */
     public function it_throws_an_exception_for_invalid_countries() {
         $this->expectException(CountryNotFoundException::class);
-        $this->countryList->getOne('asdne', 'en');
+        $this->countryList->getOne('asdne');
     }
 
 }

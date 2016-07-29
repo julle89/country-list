@@ -1,4 +1,6 @@
-<?php namespace Tariq86\CountryList;
+<?php
+
+namespace Tariq86\CountryList;
 
 /*
  * This file is part of Tariq86-CountryList
@@ -175,7 +177,11 @@ class CountryList {
 
 	private function _getLocale($locale) {
 		if ($locale === null) {
-			$locale = \App::getLocale();
+			if (class_exists('App')) {
+				$locale = \App::getLocale();
+			} else {
+				$locale = 'en';
+			}
 		}
 		return $locale;
 	}
