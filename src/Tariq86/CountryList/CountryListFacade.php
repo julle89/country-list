@@ -29,6 +29,6 @@ class CountryListFacade extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'countrylist'; }
+    protected static function getFacadeAccessor() { return 'countryList'; }
 
 }
