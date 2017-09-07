@@ -76,7 +76,7 @@ class CountryList {
 	{
 		$locale = $this->_getLocale($locale);
 		$countryCode = mb_strtoupper($countryCode);
-		$locales = $this->loadData($locale, 'php');
+		$locales = $this->loadData($locale, 'php', false);
 
 		if (!$this->has($countryCode, $locale))
 		{
@@ -91,12 +91,13 @@ class CountryList {
 	 *
 	 * @param string $locale  The locale (default: en)
 	 * @param string $format  The format (default: php)
+	 * @param boolean $sorted sort the list? (default: true)
 	 * @return array
 	 */
-	public function getList($locale = null, $format = 'php')
+	public function getList($locale = null, $format = 'php', $sorted = true)
 	{
 		$locale = $this->_getLocale($locale);
-		return $this->loadData($locale, $format);
+		return $this->loadData($locale, $format, $sorted);
 	}
 
 	/**
@@ -117,9 +118,10 @@ class CountryList {
 	 *
 	 * @param string $locale  The locale
 	 * @param string $format  The format (default: php)
+	 * @param boolean $sorted should we sort the country list? (default: true)
 	 * @return array          An array (list) with country
 	 */
-	protected function loadData($locale, $format)
+	protected function loadData($locale, $format, $sorted = true)
 	{
 		$locale = $this->_getLocale($locale);
 		if (!isset($this->dataCache[$locale][$format])) {
@@ -132,8 +134,10 @@ class CountryList {
 
 			$this->dataCache[$locale][$format] = ($format == 'php') ? require $file : file_get_contents($file);
 		}
-
-		return $this->sortData($locale, $this->dataCache[$locale][$format]);
+		if ($sorted) {
+			return $this->sortData($locale, $this->dataCache[$locale][$format]);
+		}
+		return $this->dataCache[$locale][$format];
 	}
 
 	/**
@@ -147,10 +151,9 @@ class CountryList {
 	 */
 	protected function sortData($locale, $data)
 	{
-		$locale = $this->_getLocale($locale);
 		if (is_array($data)) {
 			if (class_exists('Collator')) {
-				$collator = new \Collator($locale);
+				$collator = new \Collator($this->_getLocale($locale));
 				$collator->asort($data);
 			} else {
 				asort($data);
@@ -170,7 +173,7 @@ class CountryList {
 	public function has($countryCode, $locale = null)
 	{
 		$locale  = $this->_getLocale($locale);
-		$locales = $this->loadData($locale, 'php');
+		$locales = $this->loadData($locale, 'php', false);
 
 		return isset($locales[mb_strtoupper($countryCode)]);
 	}
