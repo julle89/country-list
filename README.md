@@ -7,7 +7,7 @@ Country List is a package for Laravel 4 & 5, which lists all countries with name
 
 Add `Tariq86/country-list` to `composer.json`.
 
-    "Tariq86/country-list": "^1.0.0"
+    "Tariq86/country-list": "^1.2.0"
 
 Run `composer update` to pull down the latest version of Country List.
 
@@ -15,6 +15,7 @@ Now open up `app/config/app.php` and add the service provider to your `providers
 
 ```php
     'providers' => [
+        // Other providers...
         Tariq86\CountryList\CountryListServiceProvider::class,
     ]
 ```
@@ -22,6 +23,7 @@ Now open up `app/config/app.php` and add the service provider to your `providers
 Now add the alias.
 ```php
     'aliases' => [
+        // Other aliases...
         'Countries' => Tariq86\CountryList\CountryListFacade::class
     ]
 ```
