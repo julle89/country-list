@@ -24,12 +24,12 @@ use Illuminate\Support\ServiceProvider;
  */
 class CountryListServiceProvider extends ServiceProvider {
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
 	/**
 	 * Register the service provider.
@@ -40,7 +40,7 @@ class CountryListServiceProvider extends ServiceProvider {
 	{
 		$this->app->singleton('countryList', function($app)
 		{
-			return new CountryList;
+            return new CountryList(base_path('vendor/umpirsky/country-list/data'));
 		});
 	}
 

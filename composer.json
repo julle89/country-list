@@ -5,19 +5,16 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Tariq Abusheikh",
-            "email": "tariq@abusheikh.me",
-            "homepage": "https://abusheikh.me",
-            "role": "Developer"
+            "name": "Tariq A.",
+            "role": "Maintainer"
         }
     ],
     "require": {
         "php": ">=5.4.0",
-        "umpirsky/country-list": "^2.0.0",
-        "umpirsky/list-generator": "^1.1"
+        "umpirsky/country-list": "2.0.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.4.*"
+        "phpunit/phpunit": "^6.3.0"
     },
     "autoload": {
         "psr-0": {

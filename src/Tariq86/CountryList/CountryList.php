@@ -35,7 +35,7 @@ class CountryList {
 	 * @var array
 	 * Cached data.
 	 */
-	protected $dataCache = [];
+	protected $dataCache = array();
 
 	/**
 	 * Constructor.
@@ -44,9 +44,8 @@ class CountryList {
 	 */
 	public function __construct($dataDir = null)
 	{
-		if ($dataDir === null) {
-			$r = new \ReflectionClass(\Umpirsky\ListGenerator\Builder\Builder::class);
-			$dataDir = sprintf('%s/../../../../../country-list/data', dirname($r->getFileName()));
+		if (!$dataDir) {
+			$dataDir = base_path('vendor/umpirsky/country-list/data');
 		}
 
 		if (!is_dir($dataDir)) {
@@ -125,8 +124,8 @@ class CountryList {
 	{
 		$locale = $this->_getLocale($locale);
 		if (!isset($this->dataCache[$locale][$format])) {
-
-			$file = sprintf("%s/%s/country.{$format}", $this->dataDir, $locale);
+			// Customization - "source" does not matter anymore because umpirsky refactored his library.
+			$file = sprintf('%s/%s/country.%s', $this->dataDir, $locale, $format);
 
 			if (!is_file($file)) {
 				throw new \RuntimeException(sprintf('Unable to load the country data file "%s"', $file));

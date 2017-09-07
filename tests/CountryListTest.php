@@ -1,5 +1,7 @@
 <?php
 
+require (__DIR__ . DIRECTORY_SEPARATOR . 'helpers.php');
+
 use PHPUnit\Framework\TestCase;
 use Tariq86\CountryList\CountryList;
 use Tariq86\CountryList\CountryNotFoundException;
