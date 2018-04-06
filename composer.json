@@ -17,9 +17,19 @@
         "phpunit/phpunit": "^6.3.0"
     },
     "autoload": {
-        "psr-0": {
-            "Tariq86\\CountryList": "src/"
+        "psr-4": {
+            "Tariq86\\CountryList\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Monarobase\\CountryList\\CountryListServiceProvider"
+            ],
+            "aliases": {
+                "Countries": "Monarobase\\CountryList\\CountryListFacade"
+            }
+        }
+    }
 }

@@ -5,13 +5,8 @@ Country List is a package for Laravel 4 & 5, which lists all countries with name
 
 ## Installation
 
-Add `Tariq86/country-list` to `composer.json`.
-
-    "Tariq86/country-list": "^1.2.0"
-
-Run `composer update` to pull down the latest version of Country List.
-
-Now open up `app/config/app.php` and add the service provider to your `providers` array.
+ 1. Require package via Composer: `composer require tariq86/country-list`
+ 1. If you're using Laravel <= 5.4, open up `app/config/app.php` and add the service provider to your `providers` array.
 
 ```php
     'providers' => [
@@ -36,16 +31,16 @@ Now add the alias.
 
 Get all countries
 ```php
-	Route::get('/', function()
-	{
-		return Countries::getList('en', 'json');
-	});
+Route::get('/', function()
+{
+	return Countries::getList('en', 'json');
+});
 ```
 
 Get one country
 ```php
-	Route::get('/', function()
-	{
-		return Countries::getOne('RU', 'en');
-	});
+Route::get('/', function()
+{
+	return Countries::getOne('RU', 'en');
+});
 ```

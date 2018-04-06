@@ -26,16 +26,14 @@ namespace Tariq86\CountryList;
 class CountryList {
 
 	/**
-	 * @var string
-	 * Path to the directory containing countries data.
+	 * @var string Path to the directory containing countries data.
 	 */
 	protected $dataDir;
 
 	/**
-	 * @var array
-	 * Cached data.
+	 * @var array Cached data.
 	 */
-	protected $dataCache = array();
+	protected $dataCache = [];
 
 	/**
 	 * Constructor.
@@ -66,8 +64,8 @@ class CountryList {
 	/**
 	 * Returns one country.
 	 *
-	 * @param string $countryCode  The country
-	 * @param string|null $locale       The locale (default: null, which will get the current app locale)
+	 * @param string      $countryCode  The 2-character ISO code for the country
+	 * @param string|null $locale       The locale (default: null, which will get the current app locale or 'en')
 	 * @return string
 	 * @throws CountryNotFoundException  If the country code doesn't match any country.
 	 */
