@@ -11,9 +11,13 @@ dist: bionic
 
 before_script:
   - pecl install pcov
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
   - php composer.phar require --dev pcov/clobber
   - ./vendor/bin/pcov clobber
 
-script: ./vendor/bin/phpunit
+script:
+  - ./vendor/bin/phpunit --coverage-clover=coverage.xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

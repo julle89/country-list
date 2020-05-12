@@ -1,8 +1,10 @@
-/coverage
 /vendor
-/src/autoload.php
 composer.phar
 composer.lock
 .DS_Store
 .idea
+
+# Code testing + coverage
+/coverage
+coverage.xml
 .phpunit.result.cache
