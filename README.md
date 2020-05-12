@@ -1,34 +1,21 @@
 # Country List
 
+[![Build Status](https://travis-ci.org/tariq86/country-list.svg?branch=master)](https://travis-ci.org/tariq86/country-list)
+[![codecov](https://codecov.io/gh/tariq86/country-list/branch/master/graph/badge.svg)](https://codecov.io/gh/tariq86/country-list)
+
 Country List is a package for Laravel 5+, which lists all countries with names and ISO 3166-1 codes in all languages and data formats.
 
 ## Installation
 
 Require package via Composer: `composer require tariq86/country-list`
 
-Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider. If you don't use
-auto-discovery (i.e. if running Laravel <= 5.4), add the ServiceProvider to the `providers` array in `config/app.php`:
-
-```php
-    'providers' => [
-        // Other providers...
-        Tariq86\CountryList\CountryListServiceProvider::class,
-    ]
-```
-
-If needed, add the following alias as well.
-
-```php
-    'aliases' => [
-        // Other aliases...
-        'Countries' => Tariq86\CountryList\CountryListFacade::class
-    ]
-```
+As of version 2.0.0 of this package, Laravel 5.8 is the minimum required version, so you do not need to perform any further actions.
+If you are using an older version of Laravel, you will also need to use an older version of this package (i.e. 1.3.1).
 
 ## Usage
 
 - Locale (en, en_US, fr, fr_CA...)
-  - If no locale is given (or if it is set to null), then the current Laravel app's locale will be used (via `\App::getLocale()`)
+  - If no locale is given (or if it is set to null), then it will default to 'en'
 - Format (csv, flags.html, html, json, mysql.sql, php, postgresql.sql, sqlite.sql, sqlserver.sql, txt, xml, yaml)
 
 Get all countries
