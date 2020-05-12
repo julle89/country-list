@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tariq86\CountryList\Tests;
 
+use RuntimeException;
 use Tariq86\CountryList\CountryList;
 use Tariq86\CountryList\CountryNotFoundException;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +24,26 @@ class CountryListTest extends TestCase
     {
         unset($this->countryList);
         $this->countryList = null;
+    }
+
+    /**
+     * Test that the data dir will default to the correct path if it is not given
+     * @test
+     */
+    public function constructorWithoutPathTest(): void
+    {
+        $countryList = new CountryList();
+        $this->assertEquals($countryList->getDataDir(), $this->countryList->getDataDir());
+    }
+
+    /**
+     * Test that an exception is thrown if an invalid data dir is given
+     * @test
+     */
+    public function constructorWithInvalidPathTest(): void
+    {
+        $this->expectException(RuntimeException::class);
+        new CountryList('../blah/blah');
     }
 
     /**
@@ -108,5 +129,29 @@ class CountryListTest extends TestCase
 
         $this->assertTrue($this->countryList->has('A', 'xx'));
         $this->assertFalse($this->countryList->has('D', 'xx'));
+    }
+
+    /**
+     * Test that an exception is thrown if an invalid ISO code is given
+     * @test
+     */
+    public function invalidCountryCodeTest(): void
+    {
+        $this->expectException(CountryNotFoundException::class);
+        $this->countryList->getOne(':)');
+    }
+
+    /**
+     * Test that an exception is thrown if an invalid locale is given
+     * @test
+     */
+    public function invalidLocaleTest(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->countryList->getOne('US', 'BAD_LOCALE');
+    }
+
+    public function sortFallbackTest(): void
+    {
     }
 }
