@@ -11,13 +11,13 @@ namespace Tariq86\CountryList;
  */
 class CountryNotFoundException extends \Exception
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param string $countryCode A 2-letter country code
-	 */
-	public function __construct($countryCode)
-	{
-		parent::__construct("Country '{$countryCode}' not found.");
-	}
+    /**
+     * Constructor.
+     *
+     * @param string $countryCode A 2-letter country code
+     */
+    public function __construct($countryCode)
+    {
+        parent::__construct("Country '{$countryCode}' not found.");
+    }
 }

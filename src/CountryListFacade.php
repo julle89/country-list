@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
- /*
+/**
  * This file is part of Tariq86-CountryList
  *
  * (c) 2016 Tariq86
@@ -37,7 +37,8 @@ class CountryListFacade extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return CountryList::class;
     }
 
