@@ -9,11 +9,8 @@ php:
 os: linux
 dist: bionic
 
-before_install:
-  - sudo apt update
-  - sudo apt -y install php-pcov
-
 before_script:
+  - pecl install pcov
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev
 
