@@ -16,9 +16,10 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": "^7.1",
     "ext-intl": "*",
     "ext-mbstring": "*",
+    "illuminate/support": "^5.8|^6|^7",
     "umpirsky/country-list": "2.0.*"
   },
   "require-dev": {

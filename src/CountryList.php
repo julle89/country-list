@@ -150,19 +150,14 @@ class CountryList
      *
      * @param string $locale The locale whose collation rules should be used.
      * @param mixed $data Array of strings or raw data.
-     * @return mixed          If $data is an array, it will be sorted, otherwise raw data
+     * @return mixed         If $data is an array, it will be sorted, otherwise raw data
      */
     protected function sortData(string $locale, $data)
     {
         if (is_array($data)) {
-            if (class_exists('Collator')) {
-                $collator = new Collator($locale);
-                $collator->asort($data);
-            } else {
-                asort($data);
-            }
+            $collator = new Collator($locale);
+            $collator->asort($data);
         }
-
         return $data;
     }
 
