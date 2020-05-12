@@ -1,12 +1,13 @@
 # Country List
 
-Country List is a package for Laravel 4 & 5, which lists all countries with names and ISO 3166-1 codes in all languages and data formats.
-
+Country List is a package for Laravel 5+, which lists all countries with names and ISO 3166-1 codes in all languages and data formats.
 
 ## Installation
 
- 1. Require package via Composer: `composer require tariq86/country-list`
- 1. If you're using Laravel <= 5.4, open up `app/config/app.php` and add the service provider to your `providers` array.
+Require package via Composer: `composer require tariq86/country-list`
+
+Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider. If you don't use
+auto-discovery (i.e. if running Laravel <= 5.4), add the ServiceProvider to the `providers` array in `config/app.php`:
 
 ```php
     'providers' => [
@@ -15,7 +16,8 @@ Country List is a package for Laravel 4 & 5, which lists all countries with name
     ]
 ```
 
-Now add the alias.
+If needed, add the following alias as well.
+
 ```php
     'aliases' => [
         // Other aliases...
@@ -33,7 +35,7 @@ Get all countries
 ```php
 Route::get('/', function()
 {
-	return Countries::getList('en', 'json');
+    return Countries::getList('en', 'json');
 });
 ```
 
@@ -41,6 +43,6 @@ Get one country
 ```php
 Route::get('/', function()
 {
-	return Countries::getOne('RU', 'en');
+    return Countries::getOne('RU', 'en');
 });
 ```

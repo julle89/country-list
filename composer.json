@@ -5,20 +5,25 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Tariq A.",
+            "name": "Tariq86 <tariq.86@protonmail.com>",
             "role": "Maintainer"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.1",
         "umpirsky/country-list": "2.0.*"
-    },
+	},
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^8.3"
     },
     "autoload": {
         "psr-4": {
             "Tariq86\\CountryList\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tariq86\\CountryList\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",

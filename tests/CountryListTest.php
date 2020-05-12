@@ -1,71 +1,112 @@
 <?php
+declare(strict_types=1);
 
-require (__DIR__ . DIRECTORY_SEPARATOR . 'helpers.php');
+namespace Tariq86\CountryList\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Tariq86\CountryList\CountryList;
 use Tariq86\CountryList\CountryNotFoundException;
+use PHPUnit\Framework\TestCase;
 
 class CountryListTest extends TestCase
 {
-    public $countryList;
-    private $_testCountryCode = 'US';
-    private $_testCountryName = 'United States';
+	/**
+	 * @var CountryList
+	 */
+	private $countryList;
 
-    public function setUp() {
-        $this->countryList = new CountryList();
-    }
+	protected function setUp(): void
+	{
+		$this->countryList = new CountryList('vendor/umpirsky/country-list/data');
+	}
 
-    /** @test */
-    public function class_can_be_instantiated() {
-        $this->assertInstanceOf(CountryList::class, $this->countryList);
-    }
+	protected function tearDown(): void
+	{
+		unset($this->countryList);
+		$this->countryList = null;
+	}
 
-    /** @test */
-    public function constructor_sets_data_directory() {
-        $this->assertAttributeNotEmpty('dataDir', $this->countryList);
-    }
+	/**
+	 * @test
+	 */
+	public function getDataDirTest(): void
+	{
+		$this->assertEquals(realpath('vendor/umpirsky/country-list/data'), $this->countryList->getDataDir());
+	}
 
-    /** @test */
-    public function it_can_get_one_country() {
-        $this->assertEquals($this->_testCountryName, $this->countryList->getOne($this->_testCountryCode, 'en'));
-    }
+	/**
+	 * @test
+	 * @throws CountryNotFoundException
+	 */
+	public function getOneTest(): void
+	{
+		$this->countryList->setList('xx', [
+			'php' => [
+				'C' => 'Country C',
+				'B' => 'Country B',
+				'A' => 'Country A',
+			]
+		]);
+		$this->assertEquals('Country B', $this->countryList->getOne('B', 'xx'));
 
-    /** @test */
-    public function it_can_return_json() {
-        $decoded = json_decode($this->countryList->getList('en', 'json'));
-        $this->assertEquals($decoded->{$this->_testCountryCode}, $this->_testCountryName);
-    }
+		$this->expectException(CountryNotFoundException::class);
+		$this->countryList->getOne('D', 'xx');
+	}
 
-    /** @test */
-    public function it_can_return_php() {
-        $this->assertArrayHasKey($this->_testCountryCode, $this->countryList->getList('en', 'php'));
-    }
+	/**
+	 * @test
+	 */
+	public function getListPHPTest(): void
+	{
+		$this->countryList->setList('xx', [
+			'php' => [
+				'C' => 'Country C',
+				'B' => 'Country B',
+				'A' => 'Country A',
+			]
+		]);
 
-    /** @test */
-    public function it_can_return_csv() {
-        $countries = str_getcsv($this->countryList->getList('en', 'csv'), "\n");
-        if (is_array($countries)) {
-            array_shift($countries);
-            $c = [];
-            foreach ($countries as $country) {
-                $x = explode(',', $country);
-                $c[$x[0]] = preg_replace('/\"/', '', $x[1]);
-            }
-            $countries = $c;
-        }
-        $this->assertArrayHasKey($this->_testCountryCode, $countries);
-    }
+		$this->assertEquals(array_keys([
+			'A' => 'Country A',
+			'B' => 'Country B',
+			'C' => 'Country C',
+		]), array_keys($this->countryList->getList('xx')));
 
-    /** @test */
-    public function it_can_check_for_a_country() {
-        $this->assertTrue($this->countryList->has($this->_testCountryCode));
-    }
+		$this->assertNotEquals(array_keys([
+			'C' => 'Country C',
+			'A' => 'Country A',
+			'B' => 'Country B',
+		]), array_keys($this->countryList->getList('xx')));
+	}
 
-    /** @test */
-    public function it_throws_an_exception_for_invalid_country() {
-        $this->expectException(CountryNotFoundException::class);
-        $this->countryList->getOne('asdne');
-    }
+	/**
+	 * @test
+	 */
+	public function getListJSONTest(): void
+	{
+		$this->countryList->setList('xx', [
+			'json' => '{"A":"Country A","B":"Country B","C":"Country C"}'
+		]);
 
+		$this->assertEquals(
+			'{"A":"Country A","B":"Country B","C":"Country C"}',
+			$this->countryList->getList('xx', 'json')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasTest(): void
+	{
+		$this->countryList->setList('xx', [
+			'php' => [
+				'A' => 'Country A',
+				'B' => 'Country B',
+				'C' => 'Country C',
+			]
+		]);
+
+		$this->assertTrue($this->countryList->has('A', 'xx'));
+		$this->assertFalse($this->countryList->has('D', 'xx'));
+	}
 }

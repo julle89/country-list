@@ -1,5 +1,7 @@
 <?php
- /*
+declare(strict_types=1);
+
+/**
  * This file is part of Tariq86-CountryList
  *
  * (c) 2016 Tariq86
@@ -22,14 +24,14 @@ use Illuminate\Support\ServiceProvider;
  *
  * @author Tariq86
  */
-class CountryListServiceProvider extends ServiceProvider {
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
+class CountryListServiceProvider extends ServiceProvider
+{
+	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = false;
 
 	/**
 	 * Register the service provider.
@@ -38,9 +40,8 @@ class CountryListServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->singleton('countryList', function($app)
-		{
-            return new CountryList(base_path('vendor/umpirsky/country-list/data'));
+		$this->app->singleton('countryList', function ($app) {
+			return new CountryList(base_path('vendor/umpirsky/country-list/data'));
 		});
 	}
 
