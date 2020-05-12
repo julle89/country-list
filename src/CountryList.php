@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tariq86\CountryList;
 
-/*
+/**
  * This file is part of Tariq86-CountryList
  * Reference : NoiseLabs-CountryBundle by Vítor Brandão <vitor@noiselabs.org>
  *
