@@ -16,4 +16,4 @@ before_script:
   - php composer.phar require --dev pcov/clobber
   - ./vendor/bin/pcov clobber
 
-script: phpunit
+script: ./vendor/bin/phpunit
