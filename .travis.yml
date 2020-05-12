@@ -12,7 +12,8 @@ dist: bionic
 before_script:
   - pecl install pcov
   - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
   - php composer.phar require --dev pcov/clobber
-  - php composer.phar install --dev
+  - ./vendor/bin/pcov clobber
 
 script: phpunit
