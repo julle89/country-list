@@ -6,6 +6,13 @@ php:
   - 7.3
   - 7.4
 
+os: linux
+dist: bionic
+
+before_install:
+  - sudo apt update
+  - sudo apt -y install php-pcov
+
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev
