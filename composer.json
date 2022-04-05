@@ -23,8 +23,9 @@
     "umpirsky/country-list": "2.0.*"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-latest",
     "ext-pcov": "*",
-    "phpunit/phpunit": "^8.3"
+    "phpunit/phpunit": "^9.5.20"
   },
   "autoload": {
     "files": [
